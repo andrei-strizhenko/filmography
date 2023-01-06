@@ -46,6 +46,6 @@ public class Film {
         this.title = title;
         this.premierYear = premierYear;
         this.genre = genre;
-        //    this.users = users;
+
     }
 }
