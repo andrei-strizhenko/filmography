@@ -1,9 +1,10 @@
 package com.example.filmography.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,12 +14,13 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @SequenceGenerator(name = "default_generator", sequenceName = "films_seq", allocationSize = 1)
 
-public class Film {
-    @Id
-    @Column(name = "id")
-    private Long id;
+public class Film extends GenericModel {
+    //  @Id
+    //  @Column(name = "id")
+    //   private Long id;
 
     @Column(name = "title")
     private String title;
@@ -27,10 +29,12 @@ public class Film {
     private String premierYear;
 
     @Column(name = "genre")
-    private String genre;
+    @Enumerated
+    private Genre genre;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
+    //  @JsonIgnore
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
@@ -40,12 +44,11 @@ public class Film {
     private Set<Director> directors = new HashSet<>();
 
     @Builder
-    public Film( String title, String premierYear, String genre) {
-        //  super(id);
-      //  this.id = id;
+    public Film(Long id, String title, String premierYear, Genre genre, Set<Director> directors) {
+        super(id);
         this.title = title;
         this.premierYear = premierYear;
         this.genre = genre;
-
+        this.directors = directors;
     }
 }

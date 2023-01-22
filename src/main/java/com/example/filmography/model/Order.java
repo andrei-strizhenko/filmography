@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @SequenceGenerator(name = "default_generator", sequenceName = "orders_seq", allocationSize = 1)
 
-public class Order {
+public class Order extends GenericModel{
 
-    @Id
-    @Column(name = "id")
-    private Long id;
+  //  @Id
+ //   @Column(name = "id")
+  //  private Long id;
 
     @Column(name = "rent_date")
     private LocalDateTime rentDate;
@@ -32,14 +32,14 @@ public class Order {
     @Column(name = "purchase")
     private boolean purchase;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "user_id",
             foreignKey = @ForeignKey(name = "FK_USERS_FILMS")
     )
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "film_id",
             foreignKey = @ForeignKey(name = "FK_FILMS_USERS")

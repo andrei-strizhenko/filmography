@@ -3,7 +3,6 @@ package com.example.filmography.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,10 +15,11 @@ public abstract class GenericModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_generator")
     private Long id;
 
-    @Column(name = "created_when")
-    private LocalDateTime createdWhen;
+  //  @Column(name = "created_when")
+ //   private LocalDateTime createdWhen;
 
- /* @Column(name = "created_by")
+
+    /* @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "updated_when")

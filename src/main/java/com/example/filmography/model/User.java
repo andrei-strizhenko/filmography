@@ -3,7 +3,7 @@ package com.example.filmography.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SequenceGenerator(name = "default_generator", sequenceName = "users_seq", allocationSize = 1)
-public class User extends GenericModel{
-  //  @Id
-  //  @Column(name = "id")
- //   private Long id;
+public class User extends GenericModel {
+    //  @Id
+    //  @Column(name = "id")
+    //   private Long id;
 
     @Column(name = "login", nullable = false)
     private String login;
@@ -34,7 +34,7 @@ public class User extends GenericModel{
     private String middleName;
 
     @Column(name = "birth_date")
-    private DateFormat birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "phone")
     private String phone;
@@ -46,19 +46,33 @@ public class User extends GenericModel{
     private String email;
 
 
-   @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // добавид каскад тип
     @JoinColumn(
             name = "role_id",
             foreignKey = @ForeignKey(name = "FK_USER_ROLES")
     )
     private Role role;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", birthDate=" + birthDate +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role.getId() +
+                '}';
+    }
 
     @Builder
-    public User(Long id, LocalDateTime createdWhen, String createdBy,  String login, String password, String firstName, String lastName,
-                String middleName, DateFormat birthDate, String phone, String address, String email) {
-        super(id, createdWhen);
-
+    public User(Long id, String login, String password, String firstName, String lastName,
+                String middleName, LocalDate birthDate, String phone, String address, String email, Role role) {
+        super(id);
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -68,6 +82,9 @@ public class User extends GenericModel{
         this.phone = phone;
         this.address = address;
         this.email = email;
+        this.role = role;
 
-}
+    }
+
+   // public String toString(){}
 }

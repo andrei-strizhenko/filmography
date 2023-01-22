@@ -1,5 +1,6 @@
 package com.example.filmography.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // Убирает Проблему в том, что объекты загружаются лениво, а сериализация происходит до того, как они загружаются полностью.
 public class Role {
     @Id
     @Setter(AccessLevel.NONE)
@@ -20,8 +21,15 @@ public class Role {
     private Long id;
 
     @Column(name = "title")
-    private String login;
+    private String title;
 
     @Column(name = "description")
-    private String password;
+    private String description;
+
+    public void setId(Long id) {
+    }
+
+
 }
+
+
