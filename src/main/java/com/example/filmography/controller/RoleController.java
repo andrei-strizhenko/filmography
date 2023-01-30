@@ -2,6 +2,7 @@ package com.example.filmography.controller;
 
 import com.example.filmography.model.Role;
 import com.example.filmography.repository.RoleRepository;
+import com.example.filmography.service.RoleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,42 +10,44 @@ import java.util.List;
 @RestController
 @RequestMapping("/role")
 public class RoleController {
-    private final RoleRepository roleRepository;
+  //  private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
 
-    public RoleController(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public RoleController(RoleService roleService) {
+  //      this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
 
     //methods read:
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<Role> list() {
-        return roleRepository.findAll();
+        return roleService.getList();
     }
 
 
     @GetMapping("/{id}")
     public Role getById(@PathVariable Long id) {
-        return roleRepository.findById(id).orElseThrow();
+        return roleService.getOne(id);
     }
 
     //method create:
      @PostMapping
     public Role create(@RequestBody Role role) {
-        return roleRepository.save(role);
+        return roleService.create(role);
     }
 
     //method update:
     @PutMapping("/{id}")
     public Role update(@RequestBody Role role, Long id) {
         role.setId(id);
-        return roleRepository.save(role);
+        return roleService.update(role);
     }
 
     //method delete:
      @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        roleRepository.delete(roleRepository.findById(id).orElseThrow()); //check user by this id and throw exception
+        roleService.delete(id); //check user by this id and throw exception
     }
 }

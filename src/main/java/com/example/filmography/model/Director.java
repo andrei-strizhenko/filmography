@@ -1,6 +1,7 @@
 package com.example.filmography.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -29,8 +30,17 @@ public class Director extends GenericModel {
     @Column(name = "position")
     private String position;
 
-    @ManyToMany(mappedBy = "directors", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // @ManyToMany(mappedBy = "directors", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+ //   @JsonIgnore // убирает рекурсию
+    @JoinTable(
+            name = "films_directors",
+            joinColumns = @JoinColumn(name = "director_id"),
+            foreignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"),
+            inverseJoinColumns = @JoinColumn(name = "film_id"),
+            inverseForeignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"))
     private Set<Film> films = new HashSet<>();
+
 
     @Builder
     public Director(Long id, String directorFIO, String position, Set<Film> films) {

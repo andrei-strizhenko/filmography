@@ -2,6 +2,7 @@ package com.example.filmography.controller;
 
 import com.example.filmography.model.User;
 import com.example.filmography.repository.UserRepository;
+import com.example.filmography.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
 
@@ -26,20 +27,20 @@ public class UserController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     //  @RequestMapping(value = "/list")
     public List<User> list() {
-        return userRepository.findAll();
+        return userService.getList();
     }
 
     @Operation(description = "Получить запись по id", method = "GetOne")
     @GetMapping("/{id}")
     public User getById(@PathVariable Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userService.getOne(id);
     }
 
     //method create:
     @Operation(description = "Создать запись", method = "Create")
     @PostMapping
     public User create(@RequestBody User user) {
-        return userRepository.save(user);
+        return userService.create(user);
     }
 
     //method update:
@@ -47,7 +48,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User update(@RequestBody User user, @PathVariable Long id) {
         user.setId(id);
-        return userRepository.save(user);
+        return userService.update(user);
     }
 
     //method delete:
@@ -55,7 +56,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         //   userRepository.deleteById(userRepository.findById(id).orElseThrow()); //check user by this id and throw exception
-        userRepository.deleteById(id); //check user by this id and throw exception
+        userService.delete(id); //check user by this id and throw exception
 
 
     }
