@@ -12,10 +12,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 
-public class DirectorDto {
-  //  @NotBlank(message = "Поле не должно быть пустым")
+public class DirectorDto extends GenericDto {
+    @NotBlank(message = "Поле не должно быть пустым")
     private String directorFIO;
-  //  @NotBlank(message = "Поле не должно быть пустым")
+    @NotBlank(message = "Поле не должно быть пустым")
     private String position;
 
     private Set<Long> filmsIds;

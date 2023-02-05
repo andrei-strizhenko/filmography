@@ -1,6 +1,7 @@
 package com.example.filmography.service;
 
 import com.example.filmography.dto.AddFilmsDto;
+import com.example.filmography.dto.FilmDto;
 import com.example.filmography.model.Director;
 import com.example.filmography.model.Film;
 import com.example.filmography.model.Genre;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FilmService {
+public class FilmService extends GenericService<Film>{
     private final FilmRepository filmRepository;
 
     public FilmService(FilmRepository filmRepository) {
+        super(filmRepository);
         this.filmRepository = filmRepository;
 
     }
@@ -41,6 +43,12 @@ public class FilmService {
     public List<Film> getByTitleOrCountryOrGenre(String title, String country, Genre genre) {
         return filmRepository.findAllByTitleOrCountryOrGenre(title, country, genre);
     }
+
+
+  /*  public List<FilmDto> getList() {
+        return filmRepository.findAll();
+    }*/
+
 
    /* public Film addDirector(AddFilmsDto addFilmsDto) {
         Director director = directorService.getOne(addFilmsDto.getDirectorId());

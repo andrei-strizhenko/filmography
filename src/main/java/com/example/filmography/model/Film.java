@@ -38,7 +38,7 @@ public class Film extends GenericModel {
 
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JsonIgnore // убирает рекурсию
+  // @JsonIgnore // убирает рекурсию
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
