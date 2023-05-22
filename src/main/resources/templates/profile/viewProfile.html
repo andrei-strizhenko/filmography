@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1>Profile:</h1>
+  <p>Login: <span th:text="${user.login}"></span></p>
+  <p>First name: <span th:text="${user.firstName}"></span></p>
+  <p>Last name: <span th:text="${user.lastName}"></span></p>
+  <p>Middle name: <span th:text="${user.middleName}"></span></p>
+  <p>Email: <span th:text="${user.email}"></span></p>
+  <p>Birth date: <span th:text="${user.birthDate}"></span></p>
+  <p>Phone: <span th:text="${user.phone}"></span></p>
+  <p>Address: <span th:text="${user.address}"></span></p>
+
+  <a
+          sec:authorize="isAuthenticated() && !(hasRole('ADMIN'))"
+          th:href="'/users/profile/update/' + ${user.getId()}"
+          class="btn btn-primary"
+          role="button"
+          th:if="${#authentication.getPrincipal().getUserId} == ${user.getId()}"
+          aria-disabled="true"
+  >
+    Edit
+  </a>
+  <a
+          sec:authorize="isAuthenticated() && !(hasRole('ADMIN'))"
+          th:href="'/users/set-password'"
+          class="btn btn-primary"
+          role="button"
+          th:if="${#authentication.getPrincipal().getUserId} == ${user.getId()}"
+          aria-disabled="true"
+  >
+    Change password
+  </a>
+</div>
+</body>
+</html>

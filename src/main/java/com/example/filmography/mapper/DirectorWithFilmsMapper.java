@@ -1,7 +1,7 @@
 package com.example.filmography.mapper;
 
 
-import com.example.filmography.dto.DirectorWithFilmDto;
+import com.example.filmography.dto.DirectorWithFilmsDto;
 import com.example.filmography.model.Director;
 import com.example.filmography.model.GenericModel;
 import com.example.filmography.repository.FilmRepository;
@@ -14,32 +14,32 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class DirectorWithFilmMapper extends GenericMapper<Director, DirectorWithFilmDto> {
+public class DirectorWithFilmsMapper extends GenericMapper<Director, DirectorWithFilmsDto> {
 
     private final ModelMapper mapper;
     private final FilmRepository filmRepository;
 
-    protected DirectorWithFilmMapper(ModelMapper mapper, FilmRepository filmRepository) {
-        super(mapper, Director.class, DirectorWithFilmDto.class);
+    protected DirectorWithFilmsMapper(ModelMapper mapper, FilmRepository filmRepository) {
+        super(mapper, Director.class, DirectorWithFilmsDto.class);
         this.mapper = mapper;
         this.filmRepository = filmRepository;
     }
 
     @PostConstruct
     public void setupMapper() {
-        mapper.createTypeMap(Director.class, DirectorWithFilmDto.class)
-                .addMappings(m -> m.skip(DirectorWithFilmDto::setFilmsIds)).setPostConverter(toDtoConverter());
-        mapper.createTypeMap(DirectorWithFilmDto.class, Director.class)
+        mapper.createTypeMap(Director.class, DirectorWithFilmsDto.class)
+                .addMappings(m -> m.skip(DirectorWithFilmsDto::setFilmsIds)).setPostConverter(toDtoConverter());
+        mapper.createTypeMap(DirectorWithFilmsDto.class, Director.class)
                 .addMappings(m -> m.skip(Director::setFilms)).setPostConverter(toEntityConverter());
     }
 
     @Override
-    void mapSpecificFields(DirectorWithFilmDto source, Director destination) {
+    void mapSpecificFields(DirectorWithFilmsDto source, Director destination) {
         destination.setFilms(filmRepository.findAllByIdIn(source.getFilmsIds()));
     }
 
     @Override
-    void mapSpecificFields(Director source, DirectorWithFilmDto destination) {
+    void mapSpecificFields(Director source, DirectorWithFilmsDto destination) {
         destination.setFilmsIds(getIds(source));
     }
 

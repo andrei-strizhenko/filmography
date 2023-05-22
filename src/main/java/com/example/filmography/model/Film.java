@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,41 +16,36 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@SequenceGenerator(name = "default_generator", sequenceName = "films_seq", allocationSize = 1)
-
+@SequenceGenerator(name = "default_generator", sequenceName = "books_seq", allocationSize = 1)
 public class Film extends GenericModel {
-    //  @Id
-    //  @Column(name = "id")
-    //   private Long id;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "premier_year")
-    private String premierYear;
+    private Integer premierYear;
 
     @Column(name = "country")
     private String country;
 
-    @Column(name = "genre")
     @Enumerated
+    @Column(name = "genre")
     private Genre genre;
 
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-  // @JsonIgnore // убирает рекурсию
+    //@JsonIgnore
     @JoinTable(
-            name = "films_directors",
+            name = "film_directors",
             joinColumns = @JoinColumn(name = "film_id"),
             foreignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"),
             inverseJoinColumns = @JoinColumn(name = "director_id"),
-            inverseForeignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"))
-    private Set<Director> directors = new HashSet<>();
+            inverseForeignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS")
+    )
+    private Set<Director> directors;
 
     @Builder
-    public Film(Long id, String title, String premierYear, String country, Genre genre, Set<Director> directors) {
-        super(id);
+    public Film(Long id, LocalDateTime createdWhen, String createdBy, LocalDateTime updatedWhen, String updatedBy, LocalDateTime deletedWhen, String deletedBy, boolean isDeleted, String title, Integer premierYear    , String country, Genre genre, Set<Director> directors) {
+        super(id, createdWhen, createdBy, updatedWhen, updatedBy, deletedWhen, deletedBy, isDeleted);
         this.title = title;
         this.premierYear = premierYear;
         this.country = country;

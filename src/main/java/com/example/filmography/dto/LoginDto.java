@@ -1,15 +1,17 @@
 package com.example.filmography.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DirectorWithFilmDto extends DirectorDto{
-    private Set<FilmDto> films;
+public class LoginDto {
+    private String login;
+    private String password;
 }
+

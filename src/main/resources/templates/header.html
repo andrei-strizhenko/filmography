@@ -1,0 +1,43 @@
+<!--     xmlns:sec="http://www.w3.org/1999/xhtml"-->
+<div xmlns:th="http://www.thmeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     th:fragment="header">
+  <nav class="navbar navbar-expand-lg" style="background-color: #3f7a42">
+    <div class="container-fluid">
+      <a clas="navbar-brand" href="/" style="color: whitesmoke">Filmography</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-link active">
+            <a class="nav-link active" aria-current="page" href="/films">Movies</a>
+          </li>
+          <li class="nav-link active">
+            <a class="nav-link active" aria-current="page" href="/directors">Participants</a>
+          </li>
+          <li sec:authorize="isAuthenticated() && (hasRole('USER'))" class="nav-link active">
+            <a class="nav-link active" aria-current="page" th:href="'/orders'">My Movies</a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN') || hasRole('MANAGER')" class="nav-link active">
+            <a class="nav-link active" aria-current="page" th:href="'/orders'">Orders</a>
+          </li>
+          <li sec:authorize="isAuthenticated() && hasRole('ADMIN')" class="nav-link active">
+            <a class="nav-link active" aria-current="page" th:href="'/users'">Users</a>
+          </li>
+
+        </ul>
+        <div  sec:authorize="isAuthenticated() && !hasRole('ADMIN')" >
+          <a  class="nav-link active" style="float: right" th:href="'/users/profile/' + ${#authentication.getPrincipal().getUserId()}">Profile</a>
+        </div>
+
+        <form sec:authorize="isAuthenticated()" class="d-flex">
+          <a href="/logout" class="btn btn-primary" role="button" aria-disabled="true">Exit</a>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>

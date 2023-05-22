@@ -3,23 +3,26 @@ package com.example.filmography.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @MappedSuperclass
 public abstract class GenericModel {
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_generator")
     private Long id;
 
-  //  @Column(name = "created_when")
- //   private LocalDateTime createdWhen;
+    @Column(name = "created_when")
+    private LocalDateTime createdWhen;
 
-
-    /* @Column(name = "created_by")
+    @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "updated_when")
@@ -28,17 +31,17 @@ public abstract class GenericModel {
     @Column(name = "updated_by")
     private String updatedBy;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
-
     @Column(name = "deleted_when")
     private LocalDateTime deletedWhen;
 
     @Column(name = "deleted_by")
     private String deletedBy;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
-    public GenericModel(Long id, LocalDateTime createdWhen) {
 
-    }*/
+
 }
+
+

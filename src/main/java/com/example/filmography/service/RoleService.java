@@ -16,23 +16,23 @@ public class RoleService {
         this.repository = repository;
     }
 
-    public List<Role> getList(){
+    public List<Role> getList() {
         return repository.findAll();
     }
 
-    public Role getOne(Long id){
+    public Role getOne(Long id) {
         return repository.findById(id).orElseThrow();
     }
 
-    public Role create (Role role){
+    public Role create(Role role) {
         return repository.save(role);
     }
 
-    public Role update (Role role){
+    public Role update(Role role) {
         return repository.save(role);
     }
 
-    public void delete (Long id){
+    public void delete(Long id) {
         repository.delete(repository.findById(id).orElseThrow());
     }
 

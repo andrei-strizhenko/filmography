@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +21,6 @@ import java.util.Set;
 @SequenceGenerator(name = "default_generator", sequenceName = "directors_seq", allocationSize = 1)
 
 public class Director extends GenericModel {
-    //   @Id
-    //   @Column(name = "id")
-    //   private Long id;
 
     @Column(name = "director_fio")
     private String directorFIO;
@@ -30,24 +28,22 @@ public class Director extends GenericModel {
     @Column(name = "position")
     private String position;
 
-    // @ManyToMany(mappedBy = "directors", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
- //   @JsonIgnore // убирает рекурсию
+    //@JsonIgnore
     @JoinTable(
-            name = "films_directors",
+            name = "film_directors",
             joinColumns = @JoinColumn(name = "director_id"),
             foreignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"),
             inverseJoinColumns = @JoinColumn(name = "film_id"),
-            inverseForeignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"))
+            inverseForeignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS")
+    )
     private Set<Film> films = new HashSet<>();
 
-
     @Builder
-    public Director(Long id, String directorFIO, String position, Set<Film> films) {
-        super(id);
+    public Director(Long id, LocalDateTime createdWhen, String createdBy, LocalDateTime updatedWhen, String updatedBy, LocalDateTime deletedWhen, String deletedBy, boolean isDeleted, String directorFIO, String position, Set<Film> films) {
+        super(id, createdWhen, createdBy, updatedWhen, updatedBy, deletedWhen, deletedBy, isDeleted);
         this.directorFIO = directorFIO;
         this.position = position;
         this.films = films;
-
     }
 }

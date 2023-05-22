@@ -7,19 +7,19 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
+
+
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class FilmDto extends GenericDto {
-    @NotBlank(message = "Поле не должно быть пустым")
-    private String title;
-    @NotBlank(message = "Поле не должно быть пустым")
-    private Genre genre;
-    @NotBlank(message = "Поле не должно быть пустым")
-    private String premierYear;
-    private Set<Long> directorsIds;
 
+    private String title;
+    private Integer premierYear;
+    private String country;
+    private Genre genre;
+    private Set<Long> directorsIds;
 }
+

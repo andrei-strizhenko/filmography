@@ -1,12 +1,10 @@
 package com.example.filmography.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,33 +15,33 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @SequenceGenerator(name = "default_generator", sequenceName = "orders_seq", allocationSize = 1)
 
-public class Order extends GenericModel{
+public class Order extends GenericModel {
 
-  //  @Id
- //   @Column(name = "id")
-  //  private Long id;
-
-    @Column(name = "rent_date")
-    private LocalDateTime rentDate;
-
-    @Column(name = "rent_period")
-    private Integer rentPeriod;
-
-    @Column(name = "purchase")
-    private boolean purchase;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "user_id",
-            foreignKey = @ForeignKey(name = "FK_USERS_FILMS")
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_ORDER_USER"))
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "film_id",
-            foreignKey = @ForeignKey(name = "FK_FILMS_USERS")
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "film_id", foreignKey = @ForeignKey(name = "FK_ORDER_FILM"))
     private Film film;
 
+    @Column(name = "rent_date", nullable = false)
+    private LocalDate rentDate;
+
+    @Column(name = "rent_period", nullable = false)
+    private Integer rentPeriod;
+
+    @Column(name = "is_purchased", nullable = false)
+    private boolean isPurchased;
+
+    @Builder
+    public Order(Long id, LocalDateTime createdWhen, String createdBy, LocalDateTime updatedWhen, String updatedBy, LocalDateTime deletedWhen, String deletedBy, boolean isDeleted, User user, Film film, LocalDate rentDate, Integer rentPeriod, boolean isPurchased) {
+        super(id, createdWhen, createdBy, updatedWhen, updatedBy, deletedWhen, deletedBy, isDeleted);
+        this.user = user;
+        this.film = film;
+        this.rentDate = rentDate;
+        this.rentPeriod = rentPeriod;
+        this.isPurchased = isPurchased;
+    }
 }
+

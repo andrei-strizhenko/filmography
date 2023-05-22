@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+  <style>
+    .film-link {
+      text-decoration: none;
+    }
+
+    .film-link:hover {
+      color: #001445;
+    }
+
+    .not-enough-film {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div layout:fragment="content">
+  <h1>All users</h1>
+
+  <div class="row">
+    <div class="col">
+      <a
+              href="/users/add-manager"
+              class="btn btn-secondary"
+              role="button"
+              style="float: right"
+              sec:authorize="isAuthenticated() && (hasRole('ADMIN'))"
+              aria-disabled="true">Add manager</a>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Login</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Middle name</th>
+      <th scope="col">Birth date</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Email</th>
+      <th scope="col">Address</th>
+      <th scope="col">Block</th>
+      <th scope="col">Role</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--        Перебор пользователей-->
+    <tr th:each="user: ${users}">
+      <td th:text="${user.login}"></td>
+      <td th:text="${user.firstName}"></td>
+      <td th:text="${user.lastName}"></td>
+      <td th:text="${user.middleName}"></td>
+      <td th:text="
+          ${user.birthDate.getDayOfMonth()} + '-' +
+          ${user.birthDate.getMonthValue()} + '-' +
+          ${user.birthDate.getYear()}">
+      </td>
+      <td th:text="${user.phone}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.address}"></td>
+      <td th:text="${user.isDeleted() ? 'Yes' : 'No'}"></td>
+      <td th:text="${user.role.getDescription()}"></td>
+      <td>
+        <a
+                th:if="${!user.isDeleted()}"
+                th:href="'/users/ban/' + ${user.id}"
+                class="btn btn-danger"
+                role="button"
+                onclick="return confirm('Are you sure you want to block the user?');"
+                aria-disabled="true">Block
+        </a>
+        <a
+                th:if="${user.isDeleted()}"
+                th:href="'/users/unban/' + ${user.id}"
+                class="btn btn-success"
+                role="button"
+                onclick="return confirm('Are you sure you want to unblock the user?');"
+                aria-disabled="true">Unblock
+        </a>
+        <a
+                sec:authorize="isAuthenticated() && (hasRole('ADMIN'))"
+                th:href="'/users/delete/' + ${user.id}"
+                class="btn btn-danger"
+                role="button"
+                onclick="return confirm('Are you sure you want to delete the user?');"
+                aria-disabled="true">Delete
+        </a>
+        <a
+                sec:authorize="hasRole('ADMIN')"
+                th:href="'/users/profile/' + ${user.id}"
+                class="btn btn-primary"
+                role="button"
+                aria-disabled="true">View
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
+    <ul class="pagination justify-content-center font-weight-bold">
+      <li class="page-item" th:classappend="${users.number eq 0} ? 'disabled'">
+        <a class="page-link"
+           th:href="@{/users?page={id}(id=${users.number lt 2 ? 1 : users.number})}"
+           aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"
+          th:each="i : ${#numbers.sequence(1, users.totalPages, 1)}"
+          th:classappend="${i eq users.number + 1} ? 'active'">
+        <a class="page-link" th:href="@{/users?page={id}(id=${i})}" th:text="${i}"
+           th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+      </li>
+      <li class="page-item" th:classappend="${users.number eq users.totalPages - 1} ? 'disabled'">
+        <a class="page-link"
+           th:href="@{/users?page={id}(id=${users.number + 2})}"
+           aria-label="Next" title="Next Page" data-toggle="tooltip">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+</body>
+</html>

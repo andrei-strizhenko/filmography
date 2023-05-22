@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
 public class APIConfig {
 
         @Bean
-        public OpenAPI filmgraphy() {
+        public OpenAPI filmography() {
             return new OpenAPI()
                     .info(new Info()
-                            .description("сайт Фильмотека")
-                            .title("Фильмотека")
+                            .description("Filmography app MVC")
+                            .title("Filmography")
                             .version("version 0.1")
                             .contact(new Contact().name("Andrey. S"))
                     );

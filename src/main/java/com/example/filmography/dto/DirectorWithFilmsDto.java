@@ -1,6 +1,5 @@
 package com.example.filmography.dto;
 
-import com.example.filmography.model.Director;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilmWithDirectorDto extends FilmDto {
-    private Set<DirectorDto> directors;
+public class DirectorWithFilmsDto extends DirectorDto{
+    private Set<FilmDto> films;
 }

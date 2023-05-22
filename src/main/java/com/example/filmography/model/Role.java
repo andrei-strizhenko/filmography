@@ -1,5 +1,6 @@
 package com.example.filmography.model;
 
+import com.example.filmography.dto.RoleDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -26,9 +27,14 @@ public class Role {
     @Column(name = "description")
     private String description;
 
-    public void setId(Long id) {
-    }
+//    public void setId(Long id) {
+//    }
 
+    public Role(RoleDto roleDto) {
+        this.id = roleDto.getId();
+        this.title = roleDto.getTitle();
+        this.description = roleDto.getDescription();
+    }
 
 }
 

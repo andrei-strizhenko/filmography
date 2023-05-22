@@ -1,13 +1,13 @@
 package com.example.filmography.model;
 
 public enum Genre {
-    FANTASTIC("Фантастика"),
-    SCIENCE_FICTION("Научная фантастика"),
-    DRAMA("Драма"),
-    COMEDY("Комедия"),
-    ACTION("Боевик"),
-    HORROR("Ужасы"),
-    VESTERN("Вестерн");
+    FANTASTIC("Fantastic"),
+    SCIENCE_FICTION("Science Fantastic"),
+    DRAMA("Drama"),
+    COMEDY("Comedy"),
+    ACTION("Action"),
+    HORROR("Horror"),
+    VESTERN("Western");
 
     private final String genreText;
 
